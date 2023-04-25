@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS users(
     email TEXT UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
     twofa_secret TEXT,
+    twofa_confirmed BOOLEAN DEFAULT FALSE, -- whether new secret was confirmed by inputting a code
     privilege_level INT NOT NULL DEFAULT 1,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
