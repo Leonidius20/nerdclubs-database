@@ -13,7 +13,20 @@ CREATE TABLE IF NOT EXISTS users(
     twofa_secret TEXT,
     twofa_confirmed BOOLEAN DEFAULT FALSE, -- whether new secret was confirmed by inputting a code
     privilege_level INT NOT NULL DEFAULT 1,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    webauthn_credential_id TEXT,
+    webauthn_public_key TEXT,
+    webauthn_challenge TEXT, -- should be used only temporarily
+    webauthn_user_id TEXT
+    );
+
+-- INSERT INTO users(username, email, password_hash, privilege_level) VALUES('admin', 'admin@example.com', 'wronghash', 2);
+
+CREATE TABLE IF NOT EXISTS communities(
+    community_id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT,
+    url TEXT UNIQUE NOT NULL,
+    owner_user_id INT NOT NULL REFERENCES users(user_id)
 );
 
-INSERT INTO users(username, email, password_hash, privilege_level) VALUES('admin', 'admin@example.com', 'wronghash', 2);
