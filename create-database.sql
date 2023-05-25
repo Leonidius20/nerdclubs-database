@@ -30,3 +30,26 @@ CREATE TABLE IF NOT EXISTS communities(
     owner_user_id INT NOT NULL REFERENCES users(user_id)
 );
 
+-- categories of posts in a community
+CREATE TABLE IF NOT EXISTS categories(
+    category_id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    community_id INT NOT NULL REFERENCES communities,
+    description TEXT
+);
+
+
+CREATE TABLE IF NOT EXISTS posts(
+    post_id SERIAL PRIMARY KEY,
+    community_id INT NOT NULL REFERENCES communities,
+    author_user_id INT NOT NULL REFERENCES users(user_id),
+    category_id INT NOT NULL REFERENCES categories,
+    content TEXT NOT NULL
+);
+
+-- moderators logic
+CREATE TABLE IF NOT EXISTS moderators(
+    user_id INT NOT NULL REFERENCES users,
+    community_id INT NOT NULL REFERENCES communities,
+    PRIMARY KEY(user_id, community_id)
+);
