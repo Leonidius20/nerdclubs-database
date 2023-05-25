@@ -44,7 +44,9 @@ CREATE TABLE IF NOT EXISTS posts(
     community_id INT NOT NULL REFERENCES communities,
     author_user_id INT NOT NULL REFERENCES users(user_id),
     category_id INT NOT NULL REFERENCES categories,
-    content TEXT NOT NULL
+    content TEXT NOT NULL,
+    title TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 );
 
 -- moderators logic
