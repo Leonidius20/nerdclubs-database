@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS posts(
     category_id INT NOT NULL REFERENCES categories,
     content TEXT NOT NULL,
     title TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- moderators logic
@@ -54,4 +54,30 @@ CREATE TABLE IF NOT EXISTS moderators(
     user_id INT NOT NULL REFERENCES users,
     community_id INT NOT NULL REFERENCES communities,
     PRIMARY KEY(user_id, community_id)
+);
+
+-- post upvotes/downvotes
+CREATE TABLE IF NOT EXISTS post_votes(
+    user_id INT NOT NULL REFERENCES users,
+    post_id INT NOT NULL REFERENCES posts,
+    is_positive BOOLEAN NOT NULL,
+    PRIMARY KEY(user_id, post_id)
+);
+
+-- post comments
+CREATE TABLE IF NOT EXISTS comments(
+    comment_id SERIAL PRIMARY KEY,
+    author_user_id INT NOT NULL REFERENCES users,
+    post_id INT NOT NULL REFERENCES posts,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    parent_comment_id INT REFERENCES comments
+);
+
+-- comment upvotes/downvotes
+CREATE TABLE IF NOT EXISTS comment_votes(
+    user_id INT NOT NULL REFERENCES users,
+    comment_id INT NOT NULL REFERENCES comments,
+    is_positive BOOLEAN NOT NULL,
+    PRIMARY KEY(user_id, comment_id)
 );
