@@ -58,8 +58,8 @@ CREATE TABLE IF NOT EXISTS moderators(
 
 -- post upvotes/downvotes
 CREATE TABLE IF NOT EXISTS post_votes(
-    user_id INT NOT NULL REFERENCES users,
-    post_id INT NOT NULL REFERENCES posts,
+    user_id INT NOT NULL REFERENCES users ON DELETE CASCADE,
+    post_id INT NOT NULL REFERENCES posts ON DELETE CASCADE,
     is_positive BOOLEAN NOT NULL,
     PRIMARY KEY(user_id, post_id)
 );
@@ -67,17 +67,36 @@ CREATE TABLE IF NOT EXISTS post_votes(
 -- post comments
 CREATE TABLE IF NOT EXISTS comments(
     comment_id SERIAL PRIMARY KEY,
-    author_user_id INT NOT NULL REFERENCES users,
+    author_user_id INT NOT NULL REFERENCES users ON DELETE CASCADE,
     post_id INT NOT NULL REFERENCES posts,
     content TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    parent_comment_id INT REFERENCES comments
+    parent_comment_id INT REFERENCES comments ON DELETE CASCADE
 );
 
 -- comment upvotes/downvotes
 CREATE TABLE IF NOT EXISTS comment_votes(
-    user_id INT NOT NULL REFERENCES users,
-    comment_id INT NOT NULL REFERENCES comments,
+    user_id INT NOT NULL REFERENCES users ON DELETE CASCADE,
+    comment_id INT NOT NULL REFERENCES comments ON DELETE CASCADE,
     is_positive BOOLEAN NOT NULL,
     PRIMARY KEY(user_id, comment_id)
+);
+
+-- wiki pages
+CREATE TABLE IF NOT EXISTS wiki_pages(
+    wiki_page_id SERIAL PRIMARY KEY,
+    community_id INT NOT NULL REFERENCES communities ON DELETE CASCADE,
+    title TEXT NOT NULL,
+    content TEXT NOT NULL,
+    url TEXT NOT NULL, -- has to be unique within a community
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- wiki page version
+CREATE TABLE IF NOT EXISTS wiki_page_versions(
+    wiki_page_version_id SERIAL PRIMARY KEY,
+    wiki_page_id INT NOT NULL REFERENCES wiki_pages ON DELETE CASCADE,
+    content TEXT NOT NULL,
+    last_modified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    last_editor_user_id INT NOT NULL REFERENCES users ON DELETE SET NULL
 );
