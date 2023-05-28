@@ -51,8 +51,8 @@ CREATE TABLE IF NOT EXISTS posts(
 
 -- moderators logic
 CREATE TABLE IF NOT EXISTS moderators(
-    user_id INT NOT NULL REFERENCES users,
-    community_id INT NOT NULL REFERENCES communities,
+    user_id INT NOT NULL REFERENCES users ON DELETE CASCADE,
+    community_id INT NOT NULL REFERENCES communities ON DELETE CASCADE,
     PRIMARY KEY(user_id, community_id)
 );
 
