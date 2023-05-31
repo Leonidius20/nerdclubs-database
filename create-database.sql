@@ -97,6 +97,7 @@ CREATE TABLE IF NOT EXISTS wiki_pages(
 CREATE TABLE IF NOT EXISTS wiki_page_versions(
     wiki_page_version_id SERIAL PRIMARY KEY,
     wiki_page_id INT NOT NULL REFERENCES wiki_pages ON DELETE CASCADE,
+    title TEXT NOT NULL,
     content TEXT NOT NULL,
     last_modified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_editor_user_id INT NOT NULL REFERENCES users ON DELETE SET NULL
