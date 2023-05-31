@@ -88,8 +88,9 @@ CREATE TABLE IF NOT EXISTS wiki_pages(
     community_id INT NOT NULL REFERENCES communities ON DELETE CASCADE,
     title TEXT NOT NULL,
     content TEXT NOT NULL,
-    url TEXT NOT NULL, -- has to be unique within a community
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    url TEXT NOT NULL, 
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(community_id, url) -- url has to be unique within a community
 );
 
 -- wiki page version
