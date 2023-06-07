@@ -17,7 +17,8 @@ CREATE TABLE IF NOT EXISTS users(
     webauthn_credential_id TEXT,
     webauthn_public_key TEXT,
     webauthn_challenge TEXT, -- should be used only temporarily
-    webauthn_user_id TEXT
+    webauthn_user_id TEXT,
+    is_banned BOOLEAN DEFAULT FALSE
     );
 
 -- INSERT INTO users(username, email, password_hash, privilege_level) VALUES('admin', 'admin@example.com', 'wronghash', 2);

@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "../Frontend"
+		},
+		{
+			"path": "../wysimark"
 		}
 	],
 	"settings": {}
