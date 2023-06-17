@@ -72,7 +72,8 @@ CREATE TABLE IF NOT EXISTS comments(
     post_id INT NOT NULL REFERENCES posts,
     content TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    parent_comment_id INT REFERENCES comments ON DELETE CASCADE
+    parent_comment_id INT REFERENCES comments ON DELETE CASCADE,
+    is_deleted BOOLEAN DEFAULT FALSE -- grey out deleted comments with children
 );
 
 -- comment upvotes/downvotes
@@ -102,4 +103,11 @@ CREATE TABLE IF NOT EXISTS wiki_page_versions(
     content TEXT NOT NULL,
     last_modified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_editor_user_id INT NOT NULL REFERENCES users ON DELETE SET NULL
+);
+
+-- users banned in communities
+CREATE TABLE IF NOT EXISTS community_bans(
+    user_id INT NOT NULL REFERENCES users ON DELETE CASCADE,
+    community_id INT NOT NULL REFERENCES communities ON DELETE CASCADE,
+    PRIMARY KEY(user_id, community_id)
 );
