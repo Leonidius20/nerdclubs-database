@@ -35,16 +35,16 @@ CREATE TABLE IF NOT EXISTS communities(
 CREATE TABLE IF NOT EXISTS categories(
     category_id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
-    community_id INT NOT NULL REFERENCES communities,
+    community_id INT NOT NULL REFERENCES communities ON DELETE CASCADE,
     description TEXT
 );
 
 
 CREATE TABLE IF NOT EXISTS posts(
     post_id SERIAL PRIMARY KEY,
-    community_id INT NOT NULL REFERENCES communities,
-    author_user_id INT NOT NULL REFERENCES users(user_id),
-    category_id INT NOT NULL REFERENCES categories,
+    community_id INT NOT NULL REFERENCES communities ON DELETE CASCADE,
+    author_user_id INT REFERENCES users(user_id) ON DELETE SET NULL,
+    category_id INT NOT NULL REFERENCES categories ON DELETE CASCADE,
     content TEXT NOT NULL,
     title TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
