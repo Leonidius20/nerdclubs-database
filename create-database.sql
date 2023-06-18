@@ -111,3 +111,10 @@ CREATE TABLE IF NOT EXISTS community_bans(
     community_id INT NOT NULL REFERENCES communities ON DELETE CASCADE,
     PRIMARY KEY(user_id, community_id)
 );
+
+-- subscriptions to communities
+CREATE TABLE IF NOT EXISTS subscriptions(
+    user_id INT NOT NULL REFERENCES users ON DELETE CASCADE,
+    community_id INT NOT NULL REFERENCES communities ON DELETE CASCADE,
+    PRIMARY KEY(user_id, community_id)
+);
